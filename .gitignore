@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# macOS preview images
+.DS_Store
+
+# folder with test images
+images/
