@@ -10,6 +10,9 @@ from time import sleep
 
 #TODO: documentation
 
+# disable DoS warning
+Image.MAX_IMAGE_PIXELS = None
+
 
 DEFAULT_WIDTH = 600
 DEFAULT_HEIGHT = 448
@@ -168,7 +171,7 @@ class ImageCropper:
 		while True:
 
 			frames += 1
-			if frames > 10:
+			if frames > 5:
 				frames = 0
 				rectColor = [255, 0, 0] if rectColor == [255, 255, 0] else [255, 255, 0]
 			
