@@ -162,6 +162,7 @@ class ImageCropper:
 		frames = 0
 		mouseDown = False
 		rectColor = [255, 0, 0]
+		color = (0, 0, 0)
 		displayMode = "vcenter" if cropMode == "vertical" else "hcenter"
 		
 		while True:
@@ -170,8 +171,42 @@ class ImageCropper:
 			if frames > 10:
 				frames = 0
 				rectColor = [255, 0, 0] if rectColor == [255, 255, 0] else [255, 255, 0]
-				
 			
+			
+			# render the preview
+			if displayMode == "fill":
+				screen = pygame.display.set_mode( size=(targetWidth, targetHeight) )
+				screen.fill(color)
+				
+				if fillMode == "vertical":
+					imagePosition = (0, fillMargin)
+				else:
+					imagePosition = (fillMargin, 0)
+				
+				screen.blit(fill_image, imagePosition )
+			else:
+				screen = pygame.display.set_mode( size=(displayWidth, displayHeight) )
+				screen.blit(crop_image, [0, 0])
+			
+			
+				if displayMode == "hcenter":
+					imagePosition = (cropMargin, 0)
+				elif displayMode == "left":
+					imagePosition = (0, 0)
+				elif displayMode == "right":
+					imagePosition = (2*cropMargin, 0)
+				elif displayMode == "vcenter":
+					imagePosition = (0, cropMargin)
+				elif displayMode == "up":
+					imagePosition = (0, 0)
+				elif displayMode == "down":
+					imagePosition = (0, 2*cropMargin)
+			
+				pygame.draw.rect(screen, rectColor, [imagePosition[0], imagePosition[1], 
+					targetWidth, targetHeight], width=3)
+			
+			
+			# handle events
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 				    pygame.quit()
@@ -212,43 +247,10 @@ class ImageCropper:
 				if event.type == pygame.MOUSEBUTTONDOWN:
 					mouseDown = True
 			
-			
 			if displayMode == "fill" and mouseDown is True:
 				position = pygame.mouse.get_pos()
 				color = screen.get_at(position)
 			
-			
-			# render the preview
-			if displayMode == "fill":
-				screen = pygame.display.set_mode( size=(targetWidth, targetHeight) )
-				screen.fill(color)
-				
-				if fillMode == "vertical":
-					imagePosition = (0, fillMargin)
-				else:
-					imagePosition = (fillMargin, 0)
-				
-				screen.blit(fill_image, imagePosition )
-			else:
-				screen = pygame.display.set_mode( size=(displayWidth, displayHeight) )
-				screen.blit(crop_image, [0, 0])
-			
-			
-				if displayMode == "hcenter":
-					imagePosition = (cropMargin, 0)
-				elif displayMode == "left":
-					imagePosition = (0, 0)
-				elif displayMode == "right":
-					imagePosition = (2*cropMargin, 0)
-				elif displayMode == "vcenter":
-					imagePosition = (0, cropMargin)
-				elif displayMode == "up":
-					imagePosition = (0, 0)
-				elif displayMode == "down":
-					imagePosition = (0, 2*cropMargin)
-			
-				pygame.draw.rect(screen, rectColor, [imagePosition[0], imagePosition[1], 
-					targetWidth, targetHeight], width=3)
 			
 			pygame.display.flip()
 			clock.tick(20)
