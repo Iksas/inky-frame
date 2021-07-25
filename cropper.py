@@ -188,7 +188,8 @@ class ImageCropper:
 						
 						pygame.quit()
 						return
-					
+					elif event.key == pygame.K_ESCAPE:
+						return
 					elif event.key == pygame.K_RIGHT and cropMode == "horizontal":
 						displayMode = "right" if displayMode in ["hcenter", "right"] else "hcenter"
 					elif event.key == pygame.K_LEFT and cropMode == "horizontal":
