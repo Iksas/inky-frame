@@ -13,15 +13,14 @@ To speed up this process, `cropper.py` can be used. Launch it with
 
 ![Initial setup](docs/cropper_1.png)
 
-After choosing the initial options, the script will open every image found in the source directory (and any of its subdirectories), and allow you to quickly edit it to the right size.
+By default, the width and height options are set to the dimensions of the Pimoroni Inky Impression display.
 
-Every image can be either cropped:
+After the configuration, the script will open every image found in the source directory (and any of its subdirectories), and allow you to quickly edit it to the right size.
 
-![Initial setup](docs/crop_mode.jpg)
+Every image can be either **cropped** or **expanded**:
 
-Or expanded:
+![Initial setup](docs/crop_expand.jpg)
 
-![Initial setup](docs/expand_mode.jpg)
 
 The controls are as follows:
 
