@@ -1,10 +1,11 @@
 # inky-frame
-This project contains a set of tools that can be used to display images on a *Pimoroni Inky Impression* e-ink display (or similar models).
+This project contains a set of tools that can be used to display images on a [Pimoroni Inky Impression](https://shop.pimoroni.com/products/inky-impression) e-ink display (or similar models) connected to a Raspberry Pi.
 
+Preprocessed versions of all images that should be displayed are stored in a folder on the Raspberry Pi. Using [cron](https://help.ubuntu.com/community/CronHowto), a script is run periodically to display a random image from this folder.
 
-## Preparing images
+## Preparing the images
 
-All images need to be cropped or expanded to the exact dimensions of the e-ink display first. This way, no important parts of the image will be cut off by automatic cropping. 
+First, all images need to be cropped or expanded to the exact dimensions of the e-ink display. This way, unlike with automatic cropping, no important parts of the images will be cut off. 
 
 To speed up this process, `cropper.py` can be used. Launch it with 
 
@@ -12,15 +13,15 @@ To speed up this process, `cropper.py` can be used. Launch it with
 
 ![Initial setup](docs/cropper_1.png)
 
-After the initial setup, the script will open every image found in the source directory (and any of its subdirectories), and allow you to quickly adjust its size.
+After choosing the initial options, the script will open every image found in the source directory (and any of its subdirectories), and allow you to quickly edit it to the right size.
 
 Every image can be either cropped:
 
-![Initial setup](docs/crop_mode.png)
+![Initial setup](docs/crop_mode.jpg)
 
 Or expanded:
 
-![Initial setup](docs/expand_mode.png)
+![Initial setup](docs/expand_mode.jpg)
 
 The controls are as follows:
 
@@ -42,9 +43,9 @@ A single image can be displayed by passing its path to the script:
 
     python show_image.py -p ~/Pictures/image.py
 
-Pass the path of a folder to the script to display a random image out of the folder:
+If a folder is passed to the script, a random image from the folder is displayed:
 
     python show_image.py -p ~/Pictures/
 
 
-Cron could be used to display a different image every hour/day/week.
+Cron can be used to display a different image every hour/day/week.
