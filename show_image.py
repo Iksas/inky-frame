@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Displays the image that is passed as the first argument to this script.
+Displays an image that is passed as the first argument to this script.
 
 If a folder is passed as an argument, all images in the folder are searched 
 recursively, and a random image is picked and displayed.
@@ -48,7 +48,7 @@ def displayRandomImage(imageList):
 	print("Displaying {}".format(imagePath))
 	
 	inky = Inky()
-	saturation = 0.5
+	saturation = 0.8
 
 	image = Image.open(imagePath)
 

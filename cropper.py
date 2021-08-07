@@ -9,6 +9,7 @@ from PIL import Image
 from time import sleep
 
 #TODO: documentation
+#TODO: better handling of images that can't be read
 
 # disable DoS warning
 Image.MAX_IMAGE_PIXELS = None
