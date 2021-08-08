@@ -13,9 +13,9 @@ To speed up this process, `cropper.py` can be used. Launch it with
 
 ![Initial setup](docs/cropper_1.png)
 
-By default, the width and height options are set to the dimensions of the Pimoroni Inky Impression display.
+By default, the width and height options are set to the dimensions of the *Pimoroni Inky Impression* display.
 
-After the configuration, the script will open every image found in the source directory (and any of its subdirectories), and allow you to quickly edit it to the right size.
+After configuring, the script will open every image found in the source directory (and any of its subdirectories), and allow you to quickly edit it to the right size.
 
 Every image can be either **cropped** or **expanded**:
 
@@ -47,4 +47,8 @@ If a folder is passed to the script, a random image from the folder is displayed
     python show_image.py -p ~/Pictures/
 
 
-Cron can be used to display a different image every hour/day/week.
+[Cron](https://help.ubuntu.com/community/CronHowto) can be used to display a new image automatically. For example, to display a new image every day at 3am, a cron job like this could be used:
+
+	0 3 * * * python3 /<SCRIPT_FOLDER>/show_image.py -p /PICTURE_FOLDER_/
+
+Useful cron examples can be found [here](https://crontab.guru/examples.html).
