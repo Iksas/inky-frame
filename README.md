@@ -5,9 +5,9 @@ Preprocessed versions of all images that should be displayed are stored in a fol
 
 ## Preparing the images
 
-First, all images need to be cropped or expanded to the exact dimensions of the e-ink display. This way, unlike with automatic cropping, no important parts of the images will be cut off. 
+All images will be cropped or expanded to the exact dimensions of the e-ink display. This way, unlike with automatic cropping, no important parts of the images will be cut off. 
 
-To speed up this process, `cropper.py` can be used. Launch it with 
+To speed up this process, `cropper.py` can be launched with 
 
     python cropper.py
 
@@ -24,12 +24,12 @@ Every image can be either **cropped** or **expanded**:
 
 The controls are as follows:
 
-| Key  | Switch to... | Function |
+| Key  | Switches to... | Function |
 | ------------- | ------------- |  ------------- |
 | Arrow keys  | Crop mode | Move the cropped area |
 | W | Expand mode | Expand the image with white pixels |
 | B | Expand mode | Expand the image with black pixels |
-| Left click | Expand mode | Expand the image with the color selected by the mouse |
+| Mouse click | Expand mode | Expand the image with the color selected by the mouse |
 | Escape | - | Skip this image |
 | Enter | - | Save the edited version to the destination folder |
 
@@ -40,7 +40,7 @@ The controls are as follows:
 
 A single image can be displayed by passing its path to the script:
 
-    python show_image.py -p ~/Pictures/image.py
+    python show_image.py -p ~/Pictures/test.jpg
 
 If a folder is passed to the script, a random image from the folder is displayed:
 
