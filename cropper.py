@@ -266,7 +266,7 @@ class ImageCropper:
                     screen = pygame.display.set_mode(size=(displayWidth, displayHeight))
 
     def save(self, imageSize, imagePosition, color=(0, 0, 0)):
-        self.image = self.image.resize(imageSize, Image.ANTIALIAS)
+        self.image = self.image.resize(imageSize, Image.LANCZOS)
         output = Image.new("RGB", (self.targetWidth, self.targetHeight), color[:3])
         output.paste(self.image, imagePosition)
         output.save(self.savePath)
