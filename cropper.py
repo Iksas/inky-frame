@@ -181,7 +181,6 @@ class ImageCropper:
 
             # render the preview
             if displayMode == "fill":
-                screen = pygame.display.set_mode(size=(targetWidth, targetHeight))
                 screen.fill(color)
 
                 if fillMode == "vertical":
@@ -191,7 +190,6 @@ class ImageCropper:
 
                 screen.blit(fill_image, imagePosition)
             else:
-                screen = pygame.display.set_mode(size=(displayWidth, displayHeight))
                 screen.blit(crop_image, [0, 0])
 
                 if displayMode == "hcenter":
@@ -213,6 +211,7 @@ class ImageCropper:
                                                      targetWidth, targetHeight], width=3)
 
             # handle events
+            oldDisplayMode = displayMode
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -258,6 +257,13 @@ class ImageCropper:
 
             pygame.display.flip()
             clock.tick(20)
+
+            # set new display mode only if the mode changed
+            if displayMode != oldDisplayMode:
+                if displayMode == "fill":
+                    screen = pygame.display.set_mode(size=(targetWidth, targetHeight))
+                else:
+                    screen = pygame.display.set_mode(size=(displayWidth, displayHeight))
 
     def save(self, imageSize, imagePosition, color=(0, 0, 0)):
         self.image = self.image.resize(imageSize, Image.ANTIALIAS)
