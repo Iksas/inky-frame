@@ -292,11 +292,10 @@ class ImageCropper:
             clock.tick(20)
 
             # set new display mode only if the mode changed
-            if displayMode != oldDisplayMode:
-                if displayMode == M.FILL:
-                    screen = pygame.display.set_mode(size=(targetWidth, targetHeight))
-                else:
-                    screen = pygame.display.set_mode(size=(displayWidth, displayHeight))
+            if displayMode == M.FILL and oldDisplayMode != M.FILL:
+                screen = pygame.display.set_mode(size=(targetWidth, targetHeight))
+            if displayMode != M.FILL and oldDisplayMode == M.FILL:
+                screen = pygame.display.set_mode(size=(displayWidth, displayHeight))
 
     def save(self, imageSize, imagePosition, color=(0, 0, 0)):
         self.image = self.image.resize(imageSize, Image.LANCZOS)
