@@ -6,6 +6,7 @@ import pygame
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from PIL import Image  # install the "Pillow" package to use PIL
+from enum import Enum, auto
 
 # TODO: better handling of images that can't be read
 
@@ -14,6 +15,26 @@ Image.MAX_IMAGE_PIXELS = None
 
 DEFAULT_WIDTH = "600"
 DEFAULT_HEIGHT = "448"
+
+class M:
+    """
+    Display (M)odes supported by the program.
+    """
+    FILL = auto()
+    H_CENTER = auto()
+    V_CENTER = auto()
+    LEFT = auto()
+    RIGHT = auto()
+    UP = auto()
+    DOWN = auto()
+
+
+class D:
+    """
+    Describes horizontal and vertical (D)irections
+    """
+    HORIZONTAL = auto()
+    VERTICAL = auto()
 
 
 class FolderCropper:
@@ -133,25 +154,25 @@ class ImageCropper:
 
         if (wfactor / hfactor) > 1:
             # the height doesn't need cropping
-            cropMode = "horizontal"
+            cropMode = D.HORIZONTAL
             displayHeight = targetHeight
             displayWidth = displayHeight * self.image.width // self.image.height
             cropMargin = (displayWidth - targetWidth) // 2
 
             # the image has to be filled vertically to expand it
-            fillMode = "vertical"
+            fillMode = D.VERTICAL
             fillWidth = targetWidth
             fillHeight = fillWidth * self.image.height // self.image.width
             fillMargin = (targetHeight - fillHeight) // 2
         else:
             # the width doesn't need cropping
-            cropMode = "vertical"
+            cropMode = D.VERTICAL
             displayWidth = targetWidth
             displayHeight = displayWidth * self.image.height // self.image.width
             cropMargin = (displayHeight - targetHeight) // 2
 
             # the image has to be filled horizontally to expand it
-            fillMode = "horizontal"
+            fillMode = D.HORIZONTAL
             fillHeight = targetHeight
             fillWidth = fillHeight * self.image.width // self.image.height
             fillMargin = (targetWidth - fillWidth) // 2
@@ -170,7 +191,7 @@ class ImageCropper:
         mouseDown = False
         rectColor = [255, 0, 0]
         color = (0, 0, 0)
-        displayMode = "vcenter" if cropMode == "vertical" else "hcenter"
+        displayMode = M.V_CENTER if cropMode == D.VERTICAL else M.H_CENTER
 
         while True:
 
@@ -180,10 +201,10 @@ class ImageCropper:
                 rectColor = [255, 0, 0] if rectColor == [255, 255, 0] else [255, 255, 0]
 
             # render the preview
-            if displayMode == "fill":
+            if displayMode == M.FILL:
                 screen.fill(color)
 
-                if fillMode == "vertical":
+                if fillMode == D.VERTICAL:
                     imagePosition = (0, fillMargin)
                 else:
                     imagePosition = (fillMargin, 0)
@@ -192,17 +213,17 @@ class ImageCropper:
             else:
                 screen.blit(crop_image, [0, 0])
 
-                if displayMode == "hcenter":
+                if displayMode == M.H_CENTER:
                     imagePosition = (cropMargin, 0)
-                elif displayMode == "left":
+                elif displayMode == M.LEFT:
                     imagePosition = (0, 0)
-                elif displayMode == "right":
+                elif displayMode == M.RIGHT:
                     imagePosition = (2 * cropMargin, 0)
-                elif displayMode == "vcenter":
+                elif displayMode == M.V_CENTER:
                     imagePosition = (0, cropMargin)
-                elif displayMode == "up":
+                elif displayMode == M.UP:
                     imagePosition = (0, 0)
-                elif displayMode == "down":
+                elif displayMode == M.DOWN:
                     imagePosition = (0, 2 * cropMargin)
                 else:
                     imagePosition = (0, 0)
@@ -219,7 +240,7 @@ class ImageCropper:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
 
-                        if displayMode == "fill":
+                        if displayMode == M.FILL:
                             self.save((fillWidth, fillHeight), imagePosition, color)
                         else:
                             self.save((displayWidth, displayHeight),
@@ -229,29 +250,29 @@ class ImageCropper:
                         return
                     elif event.key == pygame.K_ESCAPE:
                         return
-                    elif event.key == pygame.K_RIGHT and cropMode == "horizontal":
-                        displayMode = "right" if displayMode in ["hcenter", "right"] else "hcenter"
-                    elif event.key == pygame.K_LEFT and cropMode == "horizontal":
-                        displayMode = "left" if displayMode in ["hcenter", "left"] else "hcenter"
-                    elif event.key == pygame.K_UP and cropMode == "vertical":
-                        displayMode = "up" if displayMode in ["vcenter", "up"] else "vcenter"
-                    elif event.key == pygame.K_DOWN and cropMode == "vertical":
-                        displayMode = "down" if displayMode in ["vcenter", "down"] else "vcenter"
+                    elif event.key == pygame.K_RIGHT and cropMode == D.HORIZONTAL:
+                        displayMode = M.RIGHT if displayMode in [M.H_CENTER, M.RIGHT] else M.H_CENTER
+                    elif event.key == pygame.K_LEFT and cropMode == D.HORIZONTAL:
+                        displayMode = M.LEFT if displayMode in [M.H_CENTER, M.LEFT] else M.H_CENTER
+                    elif event.key == pygame.K_UP and cropMode == D.VERTICAL:
+                        displayMode = M.UP if displayMode in [M.V_CENTER, M.UP] else M.V_CENTER
+                    elif event.key == pygame.K_DOWN and cropMode == D.VERTICAL:
+                        displayMode = M.DOWN if displayMode in [M.V_CENTER, M.DOWN] else M.V_CENTER
                     elif event.key == pygame.K_w:
-                        displayMode = "fill"
+                        displayMode = M.FILL
                         color = (255, 255, 255)
                     elif event.key == pygame.K_b:
-                        displayMode = "fill"
+                        displayMode = M.FILL
                         color = (0, 0, 0)
                 if event.type == pygame.MOUSEBUTTONUP:
                     mouseDown = False
                     position = pygame.mouse.get_pos()
                     color = screen.get_at(position)
-                    displayMode = "fill"
+                    displayMode = M.FILL
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouseDown = True
 
-            if displayMode == "fill" and mouseDown is True:
+            if displayMode == M.FILL and mouseDown is True:
                 position = pygame.mouse.get_pos()
                 color = screen.get_at(position)
 
@@ -260,7 +281,7 @@ class ImageCropper:
 
             # set new display mode only if the mode changed
             if displayMode != oldDisplayMode:
-                if displayMode == "fill":
+                if displayMode == M.FILL:
                     screen = pygame.display.set_mode(size=(targetWidth, targetHeight))
                 else:
                     screen = pygame.display.set_mode(size=(displayWidth, displayHeight))
