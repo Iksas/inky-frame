@@ -250,14 +250,26 @@ class ImageCropper:
                         return
                     elif event.key == pygame.K_ESCAPE:
                         return
-                    elif event.key == pygame.K_RIGHT and cropMode == D.HORIZONTAL:
-                        displayMode = M.RIGHT if displayMode in [M.H_CENTER, M.RIGHT] else M.H_CENTER
-                    elif event.key == pygame.K_LEFT and cropMode == D.HORIZONTAL:
-                        displayMode = M.LEFT if displayMode in [M.H_CENTER, M.LEFT] else M.H_CENTER
-                    elif event.key == pygame.K_UP and cropMode == D.VERTICAL:
-                        displayMode = M.UP if displayMode in [M.V_CENTER, M.UP] else M.V_CENTER
-                    elif event.key == pygame.K_DOWN and cropMode == D.VERTICAL:
-                        displayMode = M.DOWN if displayMode in [M.V_CENTER, M.DOWN] else M.V_CENTER
+                    elif event.key == pygame.K_RIGHT:
+                        if cropMode == D.HORIZONTAL:
+                            displayMode = M.H_CENTER if displayMode == M.LEFT else M.RIGHT
+                        else:
+                            displayMode = M.V_CENTER
+                    elif event.key == pygame.K_LEFT:
+                        if cropMode == D.HORIZONTAL:
+                            displayMode = M.H_CENTER if displayMode == M.RIGHT else M.LEFT
+                        else:
+                            displayMode = M.V_CENTER
+                    elif event.key == pygame.K_UP:
+                        if cropMode == D.VERTICAL:
+                            displayMode = M.V_CENTER if displayMode == M.DOWN else M.UP
+                        else:
+                            displayMode = M.H_CENTER
+                    elif event.key == pygame.K_DOWN:
+                        if cropMode == D.VERTICAL:
+                            displayMode = M.V_CENTER if displayMode == M.UP else M.DOWN
+                        else:
+                            displayMode = M.H_CENTER
                     elif event.key == pygame.K_w:
                         displayMode = M.FILL
                         color = (255, 255, 255)
